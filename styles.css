@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin:0;
+    padding: 0;
+    background-color: #2c2f33;
+    color: #ffffff;
+   
+}
+
+h1 {
+    margin: 20px;
+}
+
+label, select, button {
+    font-size: 1.2em;
+    margin: 10px;
+}
+
+#result {
+    margin-top: 20px;
+}
+
+#champion{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#items {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Abstand zwischen den Items */
+    flex-wrap: wrap; /* Ermöglicht Umbruch in mehreren Zeilen */
+}
+
+#items div {
+    display: flex;
+    flex-direction: column; /* Items und Namen untereinander anordnen */
+    align-items: center; /* Inhalte zentrieren */
+    width: 70px; /* Feste Breite für die Items */
+}
+
+#items p {
+    margin: 5; /* Kein zusätzlicher Margin für den Namen */
+    text-align: center; /* Text zentrieren */
+    word-wrap: break-word; /* Umbruch bei langen Namen */
+}
+#champion img {
+    width: 100px; /* Größe des Champion-Bildes */
+    height: 100px; /* Höhe des Champion-Bildes */
+}
+
+#items img {
+    width: 50px; /* Größe der Item-Bilder */
+    height: 50px; /* Höhe der Item-Bilder */
+}
+
+img {
+    border-radius: 10px;
+    border: 2px solid #7289da;
+}

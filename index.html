@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoL Iron Bravery</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <h1>League of Legends - Iron Bravery</h1>
+    <label for="lane">Wähle eine Lane:</label>
+    <select id="lane">
+        <option value="random">Random</option>
+        <option value="top">Top</option>
+        <option value="jungle">Jungle</option>
+        <option value="mid">Mid</option>
+        <option value="adc">ADC</option>
+        <option value="support">Support</option>
+    </select>
+    <button onclick="generateBuild()">GO</button>
+
+    <div id="result">
+        <h2>Champion:</h2>
+        <div id="champion"></div>
+        <h2>Items:</h2>
+        <div id="items"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
