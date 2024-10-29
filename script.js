@@ -2459,6 +2459,16 @@ const champions = [
     { name: "Trinity Force", type: "fighter", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3078_fighter_t4_trinityforce.png", Enabled: true},
   ];
 
+  const bootsItems = [
+    { name: "Berserker's Greaves", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3006_class_t2_berserkersgreaves.png", restriction: "bootsItem", bootsType: "ad", Enabled: true },
+    { name: "Boots of Swiftness", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3009_class_t2_bootsofswiftness.png", restriction: "bootsItem", bootsType: "speed", Enabled: true },
+    { name: "Symbiotic Soles", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3010_voidboots.png", restriction: "bootsItem", bootsType: "fun", Enabled: true },
+    { name: "Sorcerer's Shoes", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3020_class_t2_sorcerersshoes.png", restriction: "bootsItem", bootsType: "ap", Enabled: true }, 
+    { name: "Mercury's Treads", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3111_class_t2_mercurystreads.png", restriction: "bootsItem", bootsType: "armor", Enabled: true },
+    { name: "Plated Steelcaps", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3047_class_t2_ninjatabi.png", restriction: "bootsItem", bootsType: "armor", Enabled: true },
+    { name: "Ionian Boots of Lucidity", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3158_class_t2_ionianbootsoflucidity.png", restriction: "bootsItem", bootsType: "armor", Enabled: true },
+  ];
+
 const items = [
     
     { name: "Zeke's Convergence", type: "support", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3050_enchanter_t3_zekesconvergence.png", Enabled: true },
@@ -2547,6 +2557,10 @@ document.addEventListener("DOMContentLoaded", function() {
     generateBuild();  // Beispiel-Aufruf der Funktion nach dem Laden
 });
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 function generateBuild() {
   const lane = document.getElementById("lane").value;
 
@@ -2566,7 +2580,7 @@ function generateBuild() {
       roleCriteria = ["marksman", "mage"];
       break;
     case "support":
-      roleCriteria = ["support", "mage"];
+      roleCriteria = ["support"];
       break;
     case "random":
       roleCriteria = ["tank", "fighter", "support", "mage", "marksman", "assassin"];
@@ -2590,18 +2604,17 @@ function generateBuild() {
 
   // Zuordnung von Champion-Rollen zu passenden Item-Typen
   const roleItemMap = {
-    support: ["support", "tank"],
+    support: ["support"],
     fighter: ["ad", "tank"],
     mage: ["ap"],
-    assassinAD: ["ad", "assassin"],
-    assassinAP: ["ap"],
-    ad: ["ad"],
-    tank: ["tank", "ap"]
+    assassin: ["ad", "assassin"],
+    marksman: ["ad"],
+    tank: ["tank"]
   };
 
   // Finde die passenden Item-Typen basierend auf den Champion-Rollen
-  const championItemTypes = champion.style
-    .flatMap(style => roleItemMap[style] || [])
+  const championItemTypes = champion.roles
+    .flatMap(roles => roleItemMap[roles] || [])
     .filter((value, index, self) => self.indexOf(value) === index); // Duplikate entfernen
 
   // Filter reguläre Items nach kompatiblen Typen
@@ -2609,32 +2622,9 @@ function generateBuild() {
     championItemTypes.includes(item.type) && item.Enabled
   );
 
-  // Boots als erstes Item (falls nicht Cassiopeia)
   const buildItems = [];
   const selectedItems = new Set();
-
-  if (champion.name !== "Cassiopeia") { 
-    const bootsItems = [
-      { name: "Berserker's Greaves", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3006_class_t2_berserkersgreaves.png", restriction: "bootsItem", bootsType: "ad", Enabled: true },
-      { name: "Boots of Swiftness", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3009_class_t2_bootsofswiftness.png", restriction: "bootsItem", bootsType: "speed", Enabled: true },
-      { name: "Symbiotic Soles", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3010_voidboots.png", restriction: "bootsItem", bootsType: "fun", Enabled: true },
-      { name: "Sorcerer's Shoes", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3020_class_t2_sorcerersshoes.png", restriction: "bootsItem", bootsType: "ap", Enabled: true }, 
-      { name: "Mercury's Treads", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3111_class_t2_mercurystreads.png", restriction: "bootsItem", bootsType: "armor", Enabled: true },
-      { name: "Plated Steelcaps", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3047_class_t2_ninjatabi.png", restriction: "bootsItem", bootsType: "armor", Enabled: true },
-      { name: "Ionian Boots of Lucidity", type: "boots", icon: "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/items/icons2d/3158_class_t2_ionianbootsoflucidity.png", restriction: "bootsItem", bootsType: "armor", Enabled: true },
-    ];
-
-    const compatibleBoots = bootsItems.filter(boot => 
-      championItemTypes.includes(boot.bootsType) && boot.Enabled
-    );
-
-    if (compatibleBoots.length > 0) {
-      const randomBoot = compatibleBoots[Math.floor(Math.random() * compatibleBoots.length)];
-      buildItems.push(randomBoot);
-      selectedItems.add(randomBoot.name); // Fügt das ausgewählte Schuh-Item zur Liste hinzu
-    }
-  }
-
+ 
   // Spezielle Item-Gruppen optional hinzufügen
   const specialItemGroups = [
     supportItems, jungleItems, annulItems, blightItems,
@@ -2642,19 +2632,100 @@ function generateBuild() {
     lifelineItems, manaflowItems, momentumItems, quicksilverItems, spellbladeItems
   ];
 
+  if(champion.alias != "Cassiopeia")
+  {
+    const role = champion.roles[0];
+    switch(role)
+    {
+      case "tank":
+        if(getRandomInt(2) == 1)
+        {
+          selectedItems.add(bootsItems[4].name);
+          buildItems.push(bootsItems[4]);
+        }
+        else
+        {
+          selectedItems.add(bootsItems[5].name);
+          buildItems.push(bootsItems[5]);
+        }
+        break;
+
+      case "fighter":
+        if(getRandomInt(2) == 1)
+        {
+          selectedItems.add(bootsItems[4].name);
+          buildItems.push(bootsItems[4]);
+        }
+        else
+        {
+          selectedItems.add(bootsItems[5].name);
+          buildItems.push(bootsItems[5]);
+        }
+        break;
+
+      case "marksman":
+        selectedItems.add(bootsItems[0].name);
+        buildItems.push(bootsItems[0]);
+        break;
+
+      case "mage":
+        selectedItems.add(bootsItems[3].name);
+        buildItems.push(bootsItems[3]);
+        break;
+
+      case "assassin":
+        selectedItems.add(bootsItems[6].name);
+        buildItems.push(bootsItems[6]);
+        break;
+
+      case "support":
+        if(getRandomInt(3) == 0)
+        {
+          selectedItems.add(bootsItems[4].name);
+          buildItems.push(bootsItems[4]);
+        }
+        else if(getRandomInt(3) == 1)
+        {
+          selectedItems.add(bootsItems[5].name);
+          buildItems.push(bootsItems[5]);
+        }
+        else if(getRandomInt(3) == 2)
+        {
+          selectedItems.add(bootsItems[6].name);
+          buildItems.push(bootsItems[6]);
+        }
+        break;
+    }
+   
+  }
+    
   specialItemGroups.forEach(group => {
-    if (buildItems.length < 6) {
+    if (buildItems.length < 2) {
       const compatibleSpecialItems = group.filter(item => 
         championItemTypes.includes(item.type) && item.Enabled && !selectedItems.has(item.name)
       );
 
-      if (compatibleSpecialItems.length > 0 && Math.random() > 0.5) {
+      if (compatibleSpecialItems.length > 0 ) {
         const randomSpecialItem = compatibleSpecialItems[Math.floor(Math.random() * compatibleSpecialItems.length)];
         buildItems.push(randomSpecialItem);
         selectedItems.add(randomSpecialItem.name); // Item zur Set-Liste hinzufügen, um Duplikate zu vermeiden
       }
     }
   });
+
+if(lane == "jungle")
+{
+  const jungleItem = jungleItems[Math.floor(Math.random() * jungleItems.length)];
+  selectedItems.add(jungleItem.name);
+  buildItems.push(jungleItem);
+}
+else if(lane == "support")
+{
+  const supItem = supportItems[Math.floor(Math.random() * supportItems.length)];
+  selectedItems.add(supItem.name);
+  buildItems.push(supItem);
+}
+  
 
   // Auffüllen mit regulären Items, bis 6 Items erreicht sind
   while (buildItems.length < 6 && compatibleItems.length > 0) {
